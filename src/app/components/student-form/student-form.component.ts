@@ -83,12 +83,6 @@ export class StudentFormComponent implements OnInit {
       branch.toLowerCase().includes(filterValue)
     );
   }
-  clear(form: FormGroup): void {
-    form.reset();
-    Object.keys(form.controls).forEach((key) => {
-      form.controls[key].setErrors(null);
-    });
-  }
 
   // Form submission
   onSubmit() {
@@ -117,27 +111,7 @@ export class StudentFormComponent implements OnInit {
         this.studentService.addStudent(formData);
       }
 
-      this.resetForm(); // Reset the form and mark controls as untouched and pristine
       this.studentService.clearStudentToEdit(); // Clear editing state
     }
-  }
-
-  // Reset form and mark controls as untouched and pristine
-  private resetForm() {
-    this.studentForm.reset();
-    this.studentForm.markAsUntouched();
-    this.studentForm.markAsPristine();
-    Object.keys(this.studentForm.controls).forEach((key) => {
-      const control = this.studentForm.get(key);
-      if (control instanceof FormArray) {
-        control.controls.forEach((ctrl) => {
-          ctrl.markAsUntouched();
-          ctrl.markAsPristine();
-        });
-      } else {
-        control?.markAsUntouched();
-        control?.markAsPristine();
-      }
-    });
   }
 }
